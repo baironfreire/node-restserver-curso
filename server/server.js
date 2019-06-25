@@ -1,12 +1,13 @@
 require('./config/config');
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const app = express();
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(bodyParser.json());
+app.use(require('./routes/usuario'));
 
 /* app.use((req, res) => {
     res.setHeader('Content-Type', 'text/plain');
@@ -14,35 +15,11 @@ app.use(bodyParser.json());
     res.end(JSON.stringify(req.body, null, 2));
 }) */
 
-app.get('/usuario', (req, resp) => {
-    resp.send('getUsuario()');
-});
 
-app.post('/usuario', (req, resp) => {
-    let body = req.body;
-    if (body.nombre == undefined) {
-        resp.status(400).json({
-            ok: false,
-            nombre: "El nombre es necesario"
-        })
-    } else {
 
-        resp.send({
-            persona: body
-        });
-    }
-});
-
-app.put('/usuario/:id', (req, resp) => {
-    let id = req.params.id;
-
-    resp.send({
-        id
-    });
-});
-
-app.delete('/usuario', (req, resp) => {
-    resp.send('delete usuario');
+mongoose.connect(process.env.urlDB, { useNewUrlParser: true, useCreateIndex: true }, (err, res) => {
+    if (err) throw err;
+    console.log("Base de datos ONLINE");
 });
 
 app.listen(process.env.PORT, () => {
