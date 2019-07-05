@@ -7,7 +7,9 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(require('./routes/usuario'));
+
+//configuracion de rutas
+app.use(require('./routes/index'));
 
 /* app.use((req, res) => {
     res.setHeader('Content-Type', 'text/plain');
